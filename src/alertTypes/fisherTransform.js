@@ -118,13 +118,13 @@ const getPrices = (candles) => {
   return prices;
 };
 
-const checkPattern = (candles, name) => {
+const checkPattern = (candles, description) => {
   const prices = getPrices(candles);
   const normalizedPrices = getNormalizedPrices(prices);
   const fisherTransformedValues = getFisherTransformedValues(normalizedPrices);
   if (fisherTransformedValues.length < FISHER_TRANSFORM_LOOKBACK_PERIOD) {
     console.log(
-      `Skipping ${name}. Number of Available Candles (${fisherTransformedValues.length}) is lower than Lookback Period (${FISHER_TRANSFORM_LOOKBACK_PERIOD})\nConsider adding it to exceptions untill there are enough datapoints`
+      `Skipping ${description.symbol} ${description.timeframe}. Number of Available Candles (${fisherTransformedValues.length}) is lower than Lookback Period (${FISHER_TRANSFORM_LOOKBACK_PERIOD})\nConsider adding it to exceptions untill there are enough datapoints`
     );
     return false;
   }
@@ -144,9 +144,14 @@ const checkPattern = (candles, name) => {
 
 const FisherTransform = (pair) => {
   const { symbol, timeframe } = pair;
-  const name = `FisherTransform${symbol}${timeframe}`;
+  const name = "Fisher Transform";
+  const description = {
+    name,
+    symbol,
+    timeframe,
+  };
   const nrOfCandles = CANDLES_PER_REQUEST;
-  const alert = Alert(name, nrOfCandles, checkPattern);
+  const alert = Alert(description, nrOfCandles, checkPattern);
   const { evaluateAndNotify } = alert;
   return { evaluateAndNotify };
 };

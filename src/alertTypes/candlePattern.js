@@ -53,26 +53,34 @@ const isAlternating = (candles, firstFlag) => {
   return true;
 };
 
-const checkPattern = (candles, name) => {
+const checkPattern = (candles, description) => {
   if (candles.length < NR_OF_CANDLES) {
-    if (candles.length <= 0) console.log(`Couldn't get any data for ${name}`);
+    if (candles.length <= 0)
+      console.log(
+        `Couldn't get any data for ${description.symbol} ${description.timeframe}`
+      );
     else
       console.log(
-        `Not enough data for ${name}. Expected ${NR_OF_CANDLES} received ${candles.length}.\nConsider adding it to exceptions untill there are enough datapoints`
+        `Not enough data for ${description.symbol} ${description.timeframe}. Expected ${NR_OF_CANDLES} received ${candles.length}.\nConsider adding it to exceptions untill there are enough datapoints`
       );
   } else {
     if (isAlternating(candles, 1) && checkGreenRedGreenRed(candles))
-      return `${name}: G_R_G_R Pattern`
+      return `Green first`;
     if (isAlternating(candles, 0) && checkRedGreenRedGreen(candles))
-      return `${name}: R_G_R_G Pattern`
+      return `Red first`;
   }
   return false;
 };
 
 const CandlePattern = (pair) => {
   const { symbol, timeframe } = pair;
-  const name = `CandlePattern${symbol}${timeframe}`;
-  const alert = Alert(name, NR_OF_CANDLES, checkPattern);
+  const name = `Candle Pattern`;
+  const description = {
+    name,
+    symbol,
+    timeframe,
+  };
+  const alert = Alert(description, NR_OF_CANDLES, checkPattern);
   const { evaluateAndNotify } = alert;
   return { NR_OF_CANDLES, evaluateAndNotify };
 };

@@ -1,4 +1,4 @@
-const Alert = (name, nrOfCandles, fnCheckPattern) => {
+const Alert = (description, nrOfCandles, fnCheckPattern) => {
   let isTriggered = false;
   let ts = 0;
 
@@ -15,7 +15,7 @@ const Alert = (name, nrOfCandles, fnCheckPattern) => {
   const sendNotification = async (status) => {
     if (isTriggered) return;
     isTriggered = true;
-    console.log(`${name}: ${status}`);
+    console.log(`${description.symbol} ${description.timeframe}: ${status}`);
     /*
     fetch("https://blablabla.com", {
       method: "POST",
@@ -34,7 +34,7 @@ const Alert = (name, nrOfCandles, fnCheckPattern) => {
     const candles = getSlice(rawData);
     const lastCandle = candles.slice(-1);
     updateStatusAndTimestamp(lastCandle);
-    const status = fnCheckPattern(candles, name);
+    const status = fnCheckPattern(candles, description);
     if (status) await sendNotification(status);
   };
   return { evaluateAndNotify };

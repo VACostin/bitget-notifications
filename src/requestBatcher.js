@@ -8,9 +8,9 @@ const LIMIT = Math.min(
 );
 
 const getPairs = () => {
-  const symbolsString = process.env.SYMBOLS;
+  const symbolsString = process.env.SYMBOLS_SPOT;
   const timeframesString = process.env.TIMEFRAMES;
-  const symbols = symbolsString.split(", ");
+  const symbols = symbolsString.split(", ").map((symbol) => `${symbol}_SPBL`);
   const timeframes = timeframesString.split(", ");
   const pairs = [];
   symbols.forEach((symbol) => {
@@ -27,8 +27,14 @@ const getPairs = () => {
 const getAlertGroups = (pairs) => {
   const alertGroups = [];
   pairs.forEach((pair) => {
-    const alert1 = CandlePattern(pair);
-    const alert2 = FisherTransform(pair);
+    const { symbol, timeframe } = pair;
+    const symbolFormated = symbol.slice(0, -"_SPBL".length);
+    const pairFormated = {
+      symbol: symbolFormated,
+      timeframe,
+    };
+    const alert1 = CandlePattern(pairFormated);
+    const alert2 = FisherTransform(pairFormated);
     const alertGroup = [alert1, alert2];
     alertGroups.push(alertGroup);
   });
