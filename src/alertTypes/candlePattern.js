@@ -10,33 +10,27 @@ const changeIsLowerThanBaseline = (valueString1, valueString2) => {
 };
 
 const checkGreenRedGreenRed = (candles) => {
-  const isFirstCandlePattern = () => {
-    const firstCandle = candles[0];
-    const secondCandle = candles[1];
-    const thirdCandle = candles[2];
-    const fourthCandle = candles[3];
-    return (
-      changeIsLowerThanBaseline(firstCandle.close, secondCandle.open) &&
-      changeIsLowerThanBaseline(thirdCandle.close, secondCandle.open) &&
-      changeIsLowerThanBaseline(fourthCandle.open, thirdCandle.close)
-    );
-  };
-  return isFirstCandlePattern();
+  const firstCandle = candles[0];
+  const secondCandle = candles[1];
+  const thirdCandle = candles[2];
+  const fourthCandle = candles[3];
+  return (
+    changeIsLowerThanBaseline(firstCandle.close, secondCandle.open) &&
+    changeIsLowerThanBaseline(thirdCandle.close, secondCandle.open) &&
+    changeIsLowerThanBaseline(fourthCandle.open, thirdCandle.close)
+  );
 };
 
 const checkRedGreenRedGreen = (candles) => {
-  const isFirstCandlePattern = () => {
-    const firstCandle = candles[0];
-    const secondCandle = candles[1];
-    const thirdCandle = candles[2];
-    const fourthCandle = candles[3];
-    return (
-      changeIsLowerThanBaseline(firstCandle.close, secondCandle.open) &&
-      changeIsLowerThanBaseline(thirdCandle.close, secondCandle.open) &&
-      changeIsLowerThanBaseline(fourthCandle.open, thirdCandle.close)
-    );
-  };
-  return isFirstCandlePattern();
+  const firstCandle = candles[0];
+  const secondCandle = candles[1];
+  const thirdCandle = candles[2];
+  const fourthCandle = candles[3];
+  return (
+    changeIsLowerThanBaseline(firstCandle.close, secondCandle.open) &&
+    changeIsLowerThanBaseline(thirdCandle.close, secondCandle.open) &&
+    changeIsLowerThanBaseline(fourthCandle.open, thirdCandle.close)
+  );
 };
 
 const colorMatchesFlag = (candle, isGreenFlag) => {
@@ -67,8 +61,10 @@ const checkPattern = (candles, name) => {
         `Not enough data for ${name}. Expected ${NR_OF_CANDLES} received ${candles.length}.\nConsider adding it to exceptions untill there are enough datapoints`
       );
   } else {
-    if (isAlternating(candles, true)) return checkGreenRedGreenRed(candles);
-    if (isAlternating(candles, false)) return checkRedGreenRedGreen(candles);
+    if (isAlternating(candles, 1) && checkGreenRedGreenRed(candles))
+      return `${name}: G_R_G_R Pattern`
+    if (isAlternating(candles, 0) && checkRedGreenRedGreen(candles))
+      return `${name}: R_G_R_G Pattern`
   }
   return false;
 };
