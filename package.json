@@ -4,9 +4,6 @@
   "description": "",
   "main": "index.js",
   "private": true,
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/VACostin/bitget-notifications.git"
@@ -18,10 +15,10 @@
   },
   "homepage": "https://github.com/VACostin/bitget-notifications#readme",
   "dependencies": {
-    "bitget-api": "^1.1.1",
-    "dotenv": "^16.3.1"
+    "bitget-api": "^1.1.1"
   },
   "devDependencies": {
+    "dotenv": "^16.3.1",
     "eslint": "^8.44.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.8.0",

@@ -1,3 +1,6 @@
+const BOT_URL = process.env;
+const BOT_TOKEN = process.env;
+
 const Alert = (description, nrOfCandles, fnCheckPattern) => {
   let isTriggered = false;
   let ts = 0;
@@ -15,19 +18,20 @@ const Alert = (description, nrOfCandles, fnCheckPattern) => {
   const sendNotification = async (status) => {
     if (isTriggered) return;
     isTriggered = true;
-    console.log(`${description.symbol} ${description.timeframe}: ${status}`);
-    /*
-    fetch("https://blablabla.com", {
+    const { symbol, timeframe } = description;
+    const alertObject = { symbol, timeframe, status };
+    const Authorization = `Bearer ${BOT_TOKEN}`;
+    const Connection = "keep-alive";
+    const ContentType = "application/json";
+    fetch(BOT_URL, {
       method: "POST",
-      body: JSON.stringify({
-        name,
-        status
-      }),
+      body: JSON.stringify(alertObject),
       headers: {
-        "Content-type": "application/json; charset=UTF-8",
+        Authorization,
+        "Content-type": ContentType,
+        Connection,
       },
     });
-    */
   };
 
   const evaluateAndNotify = async (rawData) => {

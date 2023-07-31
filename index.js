@@ -1,7 +1,7 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-constant-condition */
-const { setTimeout } = require("timers/promises");
 require("dotenv").config();
+const { setTimeout } = require("timers/promises");
 const RequestBatcher = require("./src/requestBatcher");
 
 const run = async () => {
