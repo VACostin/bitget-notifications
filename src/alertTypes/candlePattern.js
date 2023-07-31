@@ -59,10 +59,10 @@ const checkPattern = (candles, description) => {
       console.log(
         `Couldn't get any data for ${description.symbol} ${description.timeframe}`
       );
-    else
+    /* else
       console.log(
         `Not enough data for ${description.symbol} ${description.timeframe}. Expected ${NR_OF_CANDLES} received ${candles.length}.\nConsider adding it to exceptions untill there are enough datapoints`
-      );
+      ); */
   } else {
     if (isAlternating(candles, 1) && checkGreenRedGreenRed(candles))
       return `Green first`;

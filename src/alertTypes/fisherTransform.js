@@ -118,14 +118,15 @@ const getPrices = (candles) => {
   return prices;
 };
 
+// eslint-disable-next-line no-unused-vars
 const checkPattern = (candles, description) => {
   const prices = getPrices(candles);
   const normalizedPrices = getNormalizedPrices(prices);
   const fisherTransformedValues = getFisherTransformedValues(normalizedPrices);
   if (fisherTransformedValues.length < FISHER_TRANSFORM_LOOKBACK_PERIOD) {
-    console.log(
+    /* console.log(
       `Skipping ${description.symbol} ${description.timeframe}. Number of Available Candles (${fisherTransformedValues.length}) is lower than Lookback Period (${FISHER_TRANSFORM_LOOKBACK_PERIOD})\nConsider adding it to exceptions untill there are enough datapoints`
-    );
+    ); */
     return false;
   }
   for (let i = 0; i < INFLEXION_POINTS.length; i += 1) {
