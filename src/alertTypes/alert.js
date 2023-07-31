@@ -1,5 +1,4 @@
-const BOT_URL = process.env;
-const BOT_TOKEN = process.env;
+const discordBot = require("./discordBot");
 
 const Alert = (description, nrOfCandles, fnCheckPattern) => {
   let isTriggered = false;
@@ -20,18 +19,7 @@ const Alert = (description, nrOfCandles, fnCheckPattern) => {
     isTriggered = true;
     const { symbol, timeframe } = description;
     const alertObject = { symbol, timeframe, status };
-    const Authorization = `Bearer ${BOT_TOKEN}`;
-    const Connection = "keep-alive";
-    const ContentType = "application/json";
-    fetch(BOT_URL, {
-      method: "POST",
-      body: JSON.stringify(alertObject),
-      headers: {
-        Authorization,
-        "Content-type": ContentType,
-        Connection,
-      },
-    });
+    discordBot.sendAlert(alertObject);
   };
 
   const evaluateAndNotify = async (rawData) => {
