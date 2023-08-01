@@ -38,7 +38,7 @@ const getFormatedArray = () => {
     throw new Error(
       "Fisher Inflexion Points array must contain at least 1 negative element"
     );
-  if (!(inflexionPoints[inflexionPoints.length] > 0))
+  if (!(inflexionPoints[inflexionPoints.length - 1] > 0))
     throw new Error(
       "Fisher Inflexion Points array must contain at least 1 positive element"
     );
