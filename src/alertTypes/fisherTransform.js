@@ -129,7 +129,12 @@ const checkPattern = (candles, description) => {
     ); */
     return false;
   }
-  for (let i = 0; i < INFLEXION_POINTS.length; i += 1) {
+  for (let i = 2; i < INFLEXION_POINTS.length; i += 1) {
+    const inflexionPoint = INFLEXION_POINTS[i];
+    if (checkInflexionPoint(fisherTransformedValues, inflexionPoint))
+      return `Reached extreme point ${inflexionPoint} from 0`;
+  }
+  for (let i = 2; i < INFLEXION_POINTS.length; i += 1) {
     const inflexionPoint = INFLEXION_POINTS[i];
     if (checkInflexionPoint(fisherTransformedValues, inflexionPoint))
       return `Reached inflexion point ${inflexionPoint} from 0`;
