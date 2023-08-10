@@ -124,7 +124,7 @@ function drawCandlestickChart(rawData) {
       normalizeValue(entry.low, minPrice, maxPrice, priceScale);
 
     // Draw candlestick body
-    ctx.strokeStyle = entry.open > entry.close ? "red" : "green";
+    ctx.strokeStyle = entry.open > entry.close ? "rgba(104, 150, 229, 1)" : "rgba(252, 241, 205, 1";
     ctx.lineWidth = candleWidth * 1;
     ctx.beginPath();
     ctx.moveTo(x, yOpen);
@@ -132,7 +132,7 @@ function drawCandlestickChart(rawData) {
     ctx.stroke();
 
     // Draw candlestick wick
-    ctx.strokeStyle = entry.open > entry.close ? "red" : "green";
+    ctx.strokeStyle = entry.open > entry.close ? "rgba(104, 150, 229, 1)" : "rgba(252, 241, 205, 1";
     ctx.lineWidth = 2;
     ctx.beginPath();
     ctx.moveTo(x, yHigh);
