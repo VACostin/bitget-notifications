@@ -16,7 +16,8 @@
   "homepage": "https://github.com/VACostin/bitget-notifications#readme",
   "dependencies": {
     "@discordjs/core": "^0.6.0",
-    "bitget-api": "^1.1.1"
+    "bitget-api": "^1.1.1",
+    "canvas": "^2.11.2"
   },
   "devDependencies": {
     "dotenv": "^16.3.1",
