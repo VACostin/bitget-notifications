@@ -1,4 +1,7 @@
+/* eslint-disable no-underscore-dangle */
 const Alert = require("./alert");
+const generateImage = require("./chartPNGs");
+
 
 const CHANGE = parseFloat(process.env.CANDLE_PATTERN_CHANGE);
 const NR_OF_CANDLES = 4;
@@ -72,6 +75,12 @@ const checkPattern = (candles, description) => {
   return false;
 };
 
+const _generateImage = async (rawData, imagePath) => {
+  const chartLength = 8;
+  const chartData = rawData.slice(-chartLength);
+  await generateImage(chartData, imagePath);
+} 
+
 const CandlePattern = (pair) => {
   const { symbol, timeframe } = pair;
   const name = `Candle Pattern`;
@@ -80,7 +89,7 @@ const CandlePattern = (pair) => {
     symbol,
     timeframe,
   };
-  const alert = Alert(description, NR_OF_CANDLES, checkPattern);
+  const alert = Alert(description, NR_OF_CANDLES, checkPattern, _generateImage);
   const { evaluateAndNotify } = alert;
   return { NR_OF_CANDLES, evaluateAndNotify };
 };
