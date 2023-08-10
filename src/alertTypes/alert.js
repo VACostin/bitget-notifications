@@ -32,7 +32,8 @@ const Alert = (
     const nameTrimmed = name.replace(/\s/g, '');
     const imageName = `/${nameTrimmed}${symbol}${timeframe}.png`;
     const imagePath = path.join(__dirname, `/chartPNGs${imageName}`);
-    await fnGenerateImage(rawData, imagePath);
+    const title = `${symbol}_${timeframe}`
+    await fnGenerateImage(rawData, imagePath, title);
     return imagePath;
   };
 
@@ -43,9 +44,7 @@ const Alert = (
     const status = fnCheckPattern(candles, description);
     if (status && !isTriggered)
       if (fnGenerateImage) {
-        const {symbol, timeframe} = description;
-        const title = `${symbol}_${timeframe}`
-        const imagePath = await getImagePath(rawData, title);
+        const imagePath = await getImagePath(rawData);
         sendNotification(status, imagePath);
       }
       else
