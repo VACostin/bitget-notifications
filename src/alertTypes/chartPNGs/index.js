@@ -6,7 +6,7 @@ const { join } = require("path");
 const canvasWidth = 800;
 const canvasHeight = 400;
 const margin = 40;
-const oneDayInSeconds = 24 * 60 * 60;
+const oneDayInMiliSeconds = 24 * 60 * 60 * 1000;
 
 // Function to normalize data values to fit the canvas
 function normalizeValue(value, minValue, maxValue, scale) {
@@ -22,7 +22,6 @@ function formatMonthDay(unixTimestamp) {
 }
 
 function formatHourMinute(unixTimestamp) {
-  console.log("here");
   const tsOptions = {
     timeZone: "Europe/Moscow",
     hour: "2-digit",
@@ -33,7 +32,6 @@ function formatHourMinute(unixTimestamp) {
     "en-US",
     tsOptions
   );
-  console.log(formattedTs);
   return formattedTs;
 }
 
@@ -49,13 +47,14 @@ function parseCandleStickData(dataArray) {
     };
   });
 
-  const timePeriod = convertedData[1].ts - convertedData[0].ts;
+  const timePeriodInMiliseconds = convertedData[1].ts - convertedData[0].ts;
   const formatOption =
-    timePeriod > oneDayInSeconds ? formatMonthDay : formatHourMinute;
+    timePeriodInMiliseconds > oneDayInMiliSeconds
+      ? formatMonthDay
+      : formatHourMinute;
   const formattedData = convertedData.map((data) => {
     const { ts } = data;
     const formattedTs = formatOption(ts);
-    console.log(`for ${ts} we have ${formattedTs}`);
     return { ...data, ts: formattedTs };
   });
   return formattedData;
@@ -127,7 +126,10 @@ function drawCandlestickChart(rawData) {
       normalizeValue(entry.low, minPrice, maxPrice, priceScale);
 
     // Draw candlestick body
-    ctx.strokeStyle = entry.open > entry.close ? "rgba(104, 150, 229, 1)" : "rgba(252, 241, 205, 1";
+    ctx.strokeStyle =
+      entry.open > entry.close
+        ? "rgba(104, 150, 229, 1)"
+        : "rgba(252, 241, 205, 1";
     ctx.lineWidth = candleWidth * 1;
     ctx.beginPath();
     ctx.moveTo(x, yOpen);
@@ -135,7 +137,10 @@ function drawCandlestickChart(rawData) {
     ctx.stroke();
 
     // Draw candlestick wick
-    ctx.strokeStyle = entry.open > entry.close ? "rgba(104, 150, 229, 1)" : "rgba(252, 241, 205, 1";
+    ctx.strokeStyle =
+      entry.open > entry.close
+        ? "rgba(104, 150, 229, 1)"
+        : "rgba(252, 241, 205, 1";
     ctx.lineWidth = 2;
     ctx.beginPath();
     ctx.moveTo(x, yHigh);
