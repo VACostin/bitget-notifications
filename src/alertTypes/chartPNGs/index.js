@@ -17,7 +17,7 @@ function formatMonthDay(unixTimestamp) {
   const offset = 3 * 60 * 60 * 1000; // Offset for GMT+3 in milliseconds
   const date = new Date((unixTimestamp + offset));
   const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDay()).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
   return `${month}/${day}`;
 }
 
