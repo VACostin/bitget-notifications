@@ -1,5 +1,6 @@
-const { createCanvas } = require("canvas");
+const { createCanvas, registerFont } = require("canvas");
 const fs = require("fs");
+const { join } = require("path");
 
 // Chart dimensions
 const canvasWidth = 800;
@@ -82,7 +83,9 @@ function drawCandlestickChart(rawData) {
   ctx.stroke();
 
   // Draw Y-axis labels
-  ctx.font = "bold 12px Sans";
+  const fontPath = join(__dirname, "./Roboto-Bold.ttf");
+  registerFont(fontPath, { family: "Roboto" });
+  ctx.font = "bold 12px Roboto";
   ctx.fillStyle = "white";
   ctx.textAlign = "left";
   ctx.textBaseline = "middle";
