@@ -75,10 +75,10 @@ const checkPattern = (candles, description) => {
   return false;
 };
 
-const _generateImage = async (rawData, imagePath) => {
+const _generateImage = async (rawData, imagePath, title) => {
   const chartLength = 8;
   const chartData = rawData.slice(-chartLength);
-  await generateImage(chartData, imagePath);
+  await generateImage(chartData, imagePath, title);
 } 
 
 const CandlePattern = (pair) => {

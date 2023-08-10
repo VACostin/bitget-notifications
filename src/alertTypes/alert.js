@@ -43,7 +43,9 @@ const Alert = (
     const status = fnCheckPattern(candles, description);
     if (status && !isTriggered)
       if (fnGenerateImage) {
-        const imagePath = await getImagePath(rawData);
+        const {symbol, timeframe} = description;
+        const title = `${symbol}_${timeframe}`
+        const imagePath = await getImagePath(rawData, title);
         sendNotification(status, imagePath);
       }
       else

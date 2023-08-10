@@ -15,7 +15,7 @@ function normalizeValue(value, minValue, maxValue, scale) {
 
 function formatMonthDay(unixTimestamp) {
   const offset = 3 * 60 * 60 * 1000; // Offset for GMT+3 in milliseconds
-  const date = new Date((unixTimestamp + offset));
+  const date = new Date(unixTimestamp + offset);
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const day = String(date.getDate()).padStart(2, "0");
   return `${month}/${day}`;
@@ -61,7 +61,7 @@ function parseCandleStickData(dataArray) {
 }
 
 // Draw the candlestick chart
-function drawCandlestickChart(rawData) {
+function drawCandlestickChart(rawData, title) {
   // Create a canvas with a transparent background
   const canvas = createCanvas(canvasWidth, canvasHeight);
   const ctx = canvas.getContext("2d");
@@ -75,6 +75,17 @@ function drawCandlestickChart(rawData) {
   // Set a transparent background
   ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
+  // Setup font
+  const fontPath = join(__dirname, "./Roboto-Bold.ttf");
+  registerFont(fontPath, { family: "Roboto" });
+
+  // Draw the title
+  ctx.fillStyle = "white";
+  ctx.font = "bold 16px Roboto";
+  ctx.textAlign = "left";
+  ctx.textBaseline = "top";
+  ctx.fillText(title, margin, margin);
+
   // Draw Y-axis
   ctx.strokeStyle = "white";
   ctx.lineWidth = 1;
@@ -85,8 +96,6 @@ function drawCandlestickChart(rawData) {
   ctx.stroke();
 
   // Draw Y-axis labels
-  const fontPath = join(__dirname, "./Roboto-Bold.ttf");
-  registerFont(fontPath, { family: "Roboto" });
   ctx.font = "bold 12px Roboto";
   ctx.fillStyle = "white";
   ctx.textAlign = "left";
@@ -154,12 +163,11 @@ function drawCandlestickChart(rawData) {
     ctx.textBaseline = "top";
     ctx.fillText(entry.ts, x, canvasHeight - margin + 5);
   });
-
   return canvas;
 }
 
-const generateImage = async (candlestickData, path) => {
-  const canvas = drawCandlestickChart(candlestickData);
+const generateImage = async (candlestickData, path, title) => {
+  const canvas = drawCandlestickChart(candlestickData, title);
   try {
     // Save the chart as an image
     const out = fs.createWriteStream(path);
