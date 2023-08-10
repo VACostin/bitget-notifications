@@ -49,7 +49,7 @@ function parseCandleStickData(dataArray) {
 
   const timePeriodInMiliseconds = convertedData[1].ts - convertedData[0].ts;
   const formatOption =
-    timePeriodInMiliseconds > oneDayInMiliSeconds
+    timePeriodInMiliseconds >= oneDayInMiliSeconds
       ? formatMonthDay
       : formatHourMinute;
   const formattedData = convertedData.map((data) => {
