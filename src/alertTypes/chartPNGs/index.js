@@ -13,6 +13,30 @@ function normalizeValue(value, minValue, maxValue, scale) {
   return ((value - minValue) * scale) / (maxValue - minValue);
 }
 
+function formatMonthDay(unixTimestamp) {
+  const offset = 3 * 60 * 60 * 1000; // Offset for GMT+3 in milliseconds
+  const date = new Date((unixTimestamp + offset) * 1000); // Convert to milliseconds
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDay()).padStart(2, "0");
+  return `${month}/${day}`;
+}
+
+function formatHourMinute(unixTimestamp) {
+  console.log("here");
+  const tsOptions = {
+    timeZone: "Europe/Moscow",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  };
+  const formattedTs = new Date(unixTimestamp).toLocaleTimeString(
+    "en-US",
+    tsOptions
+  );
+  console.log(formattedTs);
+  return formattedTs;
+}
+
 function parseCandleStickData(dataArray) {
   const convertedData = dataArray.map((data) => {
     const { ts, open, high, low, close } = data;
@@ -25,36 +49,15 @@ function parseCandleStickData(dataArray) {
     };
   });
 
-  function formatMonthDay(unixTimestamp) {
-    const offset = 3 * 60 * 60 * 1000; // Offset for GMT+3 in milliseconds
-    const date = new Date((unixTimestamp + offset) * 1000); // Convert to milliseconds
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDay()).padStart(2, "0");
-    return `${month}/${day}`;
-  }
-
-  function formatHourMinute(unixTimestamp) {
-    const tsOptions = {
-      timeZone: "Europe/Moscow",
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: false,
-    };
-    const formattedTs = new Date(unixTimestamp).toLocaleTimeString(
-      "en-US",
-      tsOptions
-    );
-    return formattedTs;
-  }
   const timePeriod = convertedData[1].ts - convertedData[0].ts;
   const formatOption =
     timePeriod > oneDayInSeconds ? formatMonthDay : formatHourMinute;
   const formattedData = convertedData.map((data) => {
     const { ts } = data;
     const formattedTs = formatOption(ts);
+    console.log(`for ${ts} we have ${formattedTs}`);
     return { ...data, ts: formattedTs };
   });
-
   return formattedData;
 }
 
